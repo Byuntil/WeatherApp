@@ -1,69 +1,109 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WeatherApp.Model
 {
-    public class Coord
+    
+
+    public class Main : INotifyPropertyChanged //온도가 바뀌었을때의 신호를 보내기 위해 INotifyPropertyChanged구현
     {
-        public double lon { get; set; }
-        public double lat { get; set; }
+        private double temp;
+
+        public double Temp
+        {
+            get { return temp; }
+            set { temp = value; OnPropertyChanged(nameof(Temp));} //C#의 강력한 기능중 하나로 유연성이 올라감 자동으로 형식, 멤버, 변수의 타입을 알려줌, 런타임에 멤버추가 가능
+        }
+
+        private int humidity;
+
+        public int Humidity
+        {
+            get { return humidity; }
+            set { humidity = value; OnPropertyChanged(nameof(Temp)); }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (propertyName != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
     }
 
-    public class Weather
+    public class Wind :INotifyPropertyChanged
     {
-        public int id { get; set; }
-        public string main { get; set; }
-        public string description { get; set; }
-        public string icon { get; set; }
+        private double speed;
+
+        public double Speed
+        {
+            get { return speed; }
+            set { speed = value; OnPropertyChanged(nameof(Speed)); } //C#의 강력한 기능중 하나로 유연성이 올라감 자동으로 형식, 멤버, 변수의 타입을 알려줌, 런타임에 멤버추가 가능
+        }
+
+        private int deg;
+
+        public int Deg
+        {
+            get { return deg; }
+            set { deg = value; OnPropertyChanged(nameof(Deg)); }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (propertyName != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 
-    public class Main
-    {
-        public double temp { get; set; }
-        public double feels_like { get; set; }
-        public double temp_min { get; set; }
-        public double temp_max { get; set; }
-        public int pressure { get; set; }
-        public int humidity { get; set; }
-    }
 
-    public class Wind
+    public class Weatherinformation : INotifyPropertyChanged
     {
-        public double speed { get; set; }
-        public int deg { get; set; }
-    }
+        private Main main;
+        public Main Main
+        {
+            get
+            {
+                return main;
+            }
+            set
+            {
+                main = value;
+                OnPropertyChanged("Main");
+            }
+        }
+        private Wind wind;
 
-    public class Clouds
-    {
-        public int all { get; set; }
-    }
+        public Wind Wind
+        {
+            get { return wind; }
+            set { wind = value; OnPropertyChanged("Wind"); }
+        }
 
-    public class Sys
-    {
-        public int type { get; set; }
-        public int id { get; set; }
-        public string country { get; set; }
-        public int sunrise { get; set; }
-        public int sunset { get; set; }
-    }
+        private String name;
 
-    public class Weatherinformation
-    {
-        public Coord coord { get; set; }
-        public IList<Weather> weather { get; set; }
-        public string Base { get; set; }
-        public Main main { get; set; }
-        public int visibility { get; set; }
-        public Wind wind { get; set; }
-        public Clouds clouds { get; set; }
-        public int dt { get; set; }
-        public Sys sys { get; set; }
-        public int timezone { get; set; }
-        public int id { get; set; }
-        public string name { get; set; }
-        public int cod { get; set; }
+        public String Name
+        {
+            get { return name; }
+            set { name = value; OnPropertyChanged("Name"); }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            if(propertyName != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
