@@ -4,32 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WeatherApp.View"
+        xmlns:vm="clr-namespace:WeatherApp.ViewModel"
+        xmlns:cv="clr-namespace:WeatherApp.ViewModel.Converter"
         mc:Ignorable="d"
-        Title="WeatherWindow" Height="350" Width="300">
+        Title="WeatherWindow" Height="400" Width="300">
 
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
         </Style>
+        <vm:WeatherVM x:Key="VM"/>
+        <cv:HumidityToStringCoverter x:Key="HToSConverter"/>
+        <cv:KelvinToCelsiusConverter x:Key="KToCConverter"/>
     </Window.Resources>
-    <Grid>
-        <StackPanel Margin="10">
-            <TextBox/>
-            <TextBlock Text="London"
+    <Grid DataContext="{StaticResource VM}">
+        <StackPanel Margin="10"
+                    DataContext="{Binding Path=Weather}"> <!--stackpanel은 vm안에 있는 Weather property와 바인딩-->
+            <Button Content="Refresh"
+                    Command="{Binding Source={StaticResource VM}, Path=RefreshCommand}"
+                    CommandParameter="{Binding ElementName=textBox,Path=Text}"/>
+            <TextBox x:Name="textBox"/>
+            <ListView Height="50"
+                      ItemsSource="{Binding Source={StaticResource VM}, Path=Cities}"
+                      SelectedItem="{Binding Source={StaticResource VM}, Path=SelectedCity}"/>
+            <TextBlock Text="{Binding Path=Name}"
                        Margin="0,20,0,0"
                        FontSize="20"
                        FontWeight="Bold"/>
-            <TextBlock Text="21 C"
-                       FontSize="40"
-                       FontWeight="ExtraBold"
-                       Margin="0,30,0,0"/>
-            <TextBlock Text="Sunny"
-                       FontSize="15"
-                       FontWeight="DemiBold"/>
-            <TextBlock Text="습도 : "
-                       Margin="0,50,0,0"/>
-            <TextBlock Text="풍향: "/>
-            <TextBlock Text="풍속: "/>
+
+            <vm:TempColorTextBlock x:Name="TempColorTextBlock"
+                                   TempBlock="{Binding ElementName=TempColorTextBlock, Path=Text}"
+                                   Text="{Binding Path=Main.Temp, Converter={StaticResource KToCConverter}}"
+                                   FontSize="40"
+                                   FontWeight="ExtraBold"
+                                   Margin="0,30,0,0"/>
+
+            <TextBlock Text="{Binding Path=Main.Humidity, Converter={StaticResource HToSConverter}}"
+                       Margin="0,50,0,0"
+                       />
+            <TextBlock Text="{Binding Path=Wind.Deg}"/>
+            <TextBlock Text="{Binding Path=Wind.Speed}"/>
         </StackPanel>
     </Grid>
 </Window>

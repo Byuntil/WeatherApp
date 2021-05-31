@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace WeatherApp.Model
 {
     
-
     public class Main : INotifyPropertyChanged //온도가 바뀌었을때의 신호를 보내기 위해 INotifyPropertyChanged구현
     {
         private double temp;
@@ -16,7 +15,7 @@ namespace WeatherApp.Model
         public double Temp
         {
             get { return temp; }
-            set { temp = value; OnPropertyChanged(nameof(Temp));} //C#의 강력한 기능중 하나로 유연성이 올라감 자동으로 형식, 멤버, 변수의 타입을 알려줌, 런타임에 멤버추가 가능
+            set { temp = value; OnPropertyChanged("Temp");} //C#의 강력한 기능중 하나로 유연성이 올라감 자동으로 형식, 멤버, 변수의 타입을 알려줌, 런타임에 멤버추가 가능
         }
 
         private int humidity;
@@ -24,12 +23,12 @@ namespace WeatherApp.Model
         public int Humidity
         {
             get { return humidity; }
-            set { humidity = value; OnPropertyChanged(nameof(Temp)); }
+            set { humidity = value; OnPropertyChanged("Humidity"); }
         }
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
-            if (propertyName != null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
@@ -57,7 +56,7 @@ namespace WeatherApp.Model
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
-            if (propertyName != null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
@@ -67,6 +66,21 @@ namespace WeatherApp.Model
 
     public class Weatherinformation : INotifyPropertyChanged
     {
+        //가상으로 데이터 설정해 놓은 곳
+        public Weatherinformation()
+        {
+            Main = new Main()
+            {
+                Temp = 23,
+                Humidity = 10
+            };
+            Wind = new Wind()
+            {
+                Deg = 0,
+                Speed = 15
+            };
+            Name = "Jeonju";
+        }
         private Main main;
         public Main Main
         {
@@ -88,9 +102,9 @@ namespace WeatherApp.Model
             set { wind = value; OnPropertyChanged("Wind"); }
         }
 
-        private String name;
+        private string name;
 
-        public String Name
+        public string Name
         {
             get { return name; }
             set { name = value; OnPropertyChanged("Name"); }
@@ -100,7 +114,7 @@ namespace WeatherApp.Model
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
-            if(propertyName != null)
+            if(PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }

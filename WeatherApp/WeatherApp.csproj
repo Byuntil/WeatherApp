@@ -58,11 +58,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Command\RefreshCommand.cs" />
+    <Compile Include="ViewModel\Converter\HumidityToStringCoverter.cs" />
+    <Compile Include="ViewModel\Converter\KelvinToCelsiusConverter.cs" />
+    <Compile Include="ViewModel\TempColorTextBlock.cs" />
     <Compile Include="ViewModel\WeatherApi.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\WeatherVM.cs" />
     <Compile Include="View\WeatherWindow.xaml.cs">
       <DependentUpon>WeatherWindow.xaml</DependentUpon>
     </Compile>

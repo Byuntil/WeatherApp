@@ -14,7 +14,7 @@ namespace WeatherApp.ViewModel
         public const string API_KEY = "85cc30a15fb710c78a4cb1d02e9298f2";
         public const string BASE_URL = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}";
 
-        public Weatherinformation GetWeatherinformation(string cityName)
+        public static Weatherinformation GetWeatherinformation(string cityName)
         {
             Weatherinformation result = new Weatherinformation();
 
